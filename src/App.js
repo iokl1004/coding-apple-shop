@@ -80,73 +80,71 @@ function App() {
       </Navbar>
 
       <Suspense fallback={<div>로딩중임</div>}>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <Routes>
-            <Route path="/" element={
-              <>
-                {/* HTML에서 이미지 추가 하는법 */}
-                {/* <div className='main-bg' style={{ backgroundImage : 'url('+bg+')'}}> </div> */}
-                <div className='main-bg'> </div>
-                <div className='container'>
-                  <div className='row'>
-                    {
-                      shoes.map((a, i) => {
-                      return (
-                          <Card key={i} shoes={shoes[i]} i={i}/>
-                        )
-                      })
-                    }
-                  </div>
-                </div>
-                <button onClick={() => {
-                  // 응용2. 버튼 3회 누를 때는 상품 더 없다고 말해주기
-                  if(scount < 4 ) {
-                    // 응용1. 버튼 2회 누를 때는 7, 8, 9번 상품 가져오려면?
-                    axios.get('https://codingapple1.github.io/shop/data'+[scount]+'.json') // ajax 성공
-                    // axios.get('asd') // ajax 실패
-                    // ajax 성공
-                    .then((결과)=> {
-                      console.log(결과.data)
-                      const copy = [...shoes, ...결과.data];
-                      setShoes(copy);
-                      setScount(scount+1);  // 응용1. 버튼 2회 누를 때는 7, 8, 9번 상품 가져오려면?
-                      // 로딩중 UI 숨기기~
-                    }) // 서버에서 가져온 data
-                    .catch(() => {
-                      // 로딩중 UI 숨기기~
+        <Routes>
+          <Route path="/" element={
+            <>
+              {/* HTML에서 이미지 추가 하는법 */}
+              {/* <div className='main-bg' style={{ backgroundImage : 'url('+bg+')'}}> </div> */}
+              <div className='main-bg'> </div>
+              <div className='container'>
+                <div className='row'>
+                  {
+                    shoes.map((a, i) => {
+                    return (
+                        <Card key={i} shoes={shoes[i]} i={i}/>
+                      )
                     })
-                  } else {
-                    // 응용2. 버튼 3회 누를 때는 상품 더 없다고 말해주기
-                    alert("상품이 더이상 존재하지 않습니다.");
                   }
-                }}>더보기</button>
-              </>
-            }/>
+                </div>
+              </div>
+              <button onClick={() => {
+                // 응용2. 버튼 3회 누를 때는 상품 더 없다고 말해주기
+                if(scount < 4 ) {
+                  // 응용1. 버튼 2회 누를 때는 7, 8, 9번 상품 가져오려면?
+                  axios.get('https://codingapple1.github.io/shop/data'+[scount]+'.json') // ajax 성공
+                  // axios.get('asd') // ajax 실패
+                  // ajax 성공
+                  .then((결과)=> {
+                    console.log(결과.data)
+                    const copy = [...shoes, ...결과.data];
+                    setShoes(copy);
+                    setScount(scount+1);  // 응용1. 버튼 2회 누를 때는 7, 8, 9번 상품 가져오려면?
+                    // 로딩중 UI 숨기기~
+                  }) // 서버에서 가져온 data
+                  .catch(() => {
+                    // 로딩중 UI 숨기기~
+                  })
+                } else {
+                  // 응용2. 버튼 3회 누를 때는 상품 더 없다고 말해주기
+                  alert("상품이 더이상 존재하지 않습니다.");
+                }
+              }}>더보기</button>
+            </>
+          }/>
 
-            {/* 페이지 여러개 만들고 싳으면 URL 파라미터 써도됨! */}
-            <Route path="/detail/:id" element={
-              // value에는 재고라는 스테이트를 공유하고 싶다면 입력하면됨.
-                <Context1.Provider value={{ 재고 }}>
-                  <Detail shoes={shoes} />
-                </Context1.Provider>
-            } />
+          {/* 페이지 여러개 만들고 싳으면 URL 파라미터 써도됨! */}
+          <Route path="/detail/:id" element={
+            // value에는 재고라는 스테이트를 공유하고 싶다면 입력하면됨.
+              <Context1.Provider value={{ 재고 }}>
+                <Detail shoes={shoes} />
+              </Context1.Provider>
+          } />
 
-            <Route path="/cart" element={ <Cart /> } />
+          <Route path="/cart" element={ <Cart /> } />
 
-            {/* <Route path="/about" element={ <About /> }>
-              <Route path="member" element={ <div>멤버임</div>} />
-              <Route path="location" element={ <div>위치정보임</div> } />
-            </Route>
+          {/* <Route path="/about" element={ <About /> }>
+            <Route path="member" element={ <div>멤버임</div>} />
+            <Route path="location" element={ <div>위치정보임</div> } />
+          </Route>
 
-            <Route path="/event" element={ <EventPage /> }>
-              <Route path="one" element={ <p>첫 주문 시 양배추즙 서비스</p>} />
-              <Route path="two" element={ <p>생일기념 쿠폰받기</p> } />
-            </Route> */}
+          <Route path="/event" element={ <EventPage /> }>
+            <Route path="one" element={ <p>첫 주문 시 양배추즙 서비스</p>} />
+            <Route path="two" element={ <p>생일기념 쿠폰받기</p> } />
+          </Route> */}
 
-            {/* 404 페이지 */}
-            {/* <Route path="/*" element={ <div>없는페이지입니다.</div> }/> */}
-          </Routes>
-        </BrowserRouter>
+          {/* 404 페이지 */}
+          {/* <Route path="/*" element={ <div>없는페이지입니다.</div> }/> */}
+        </Routes>
       </Suspense>
     </div>
   );
