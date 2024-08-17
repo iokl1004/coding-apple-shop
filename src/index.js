@@ -13,15 +13,14 @@ const queryClient = new QueryClient()
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  // react-query 설정
-  <QueryClientProvider client={queryClient}>
-    <Provider store={store}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  {/* react-query 설정 */}
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
         <App />
-
         {/* 성능개선 3 : useTransition, useDeferredValue */}
         {/* <App2 /> */}
-      </BrowserRouter>
-    </Provider>
-  </QueryClientProvider>
+      </Provider>
+    </QueryClientProvider>
+  </BrowserRouter>
 );
